@@ -217,10 +217,16 @@ exports.getOG = function(options, callback) {
 		if(err){
 			callback(err, null);
 		} else {
-			var $ = cheerio.load(body),
-				meta = $('meta'),
-				keys = Object.keys(meta),
-				ogObject = {};
+			var $ = cheerio.load(body)
+      var ogObject = {}
+			var meta
+      try {
+        meta = $('meta')
+      } catch (e) {}
+      if (! meta) {
+        return callback(null, ogObject)
+      }
+			var keys = Object.keys(meta)
 
 			//able to get og info
 			ogObject.success = 'true';
